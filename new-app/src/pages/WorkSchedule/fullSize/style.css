@@ -1,0 +1,641 @@
+::-webkit-scrollbar {
+  z-index: inherit;
+ }
+
+ html {
+  backdrop-filter: blur(10px);
+ }
+
+ body {
+  background: url(https://images.wallpaperscraft.com/image/single/drop_water_needles_365356_1920x1080.jpg);
+  backdrop-filter: blur(10px);
+ }
+
+.calendar {
+    width: 300px;
+    background-color: #2C2C2C;
+    box-sizing: border-box;
+    box-shadow: 0 5px 50px rgba(#000, 0.5);
+    overflow: hidden;
+  }
+  
+  .calendar__picture {
+    position: relative;
+    height: 200px;
+    padding: 20px;
+    color: #fff;
+    background: #262626 url("https://images.unsplash.com/photo-1516912481808-3406841bd33c?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=183f2924ba5a8429441804609b2d4f61") no-repeat center / cover;
+    text-shadow: 0 2px 2px rgba(#000, 0.2);
+    box-sizing: border-box;
+  }
+
+  .calendar__picture h2 {
+    margin: 0;
+    color: white;
+    font-size: 21px;
+  }
+
+  .calendar__picture h3 {
+    color: white;
+    margin: 0;
+    font-weight: 500;
+    font-size: 23px;
+    margin-top: 15px;
+  }
+
+  .Navigator {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .Navigator div {
+    cursor: pointer;
+  }
+  
+  .fullScreenCalendar .calendar__date {
+    padding: 20px 20px 0px 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25px, 1fr));
+    grid-gap: 10px;
+    box-sizing: border-box;
+    width: 936px;
+    height: auto;
+  }
+  
+  .fullScreenCalendar .calendar__day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    font-weight: 600;
+    color: black;
+  }
+
+  .calendar__day:nth-child(7) {
+    color: #ff685d;
+  }
+  .calendar__day:nth-child(7n-1) {
+    color: #ff685d;
+  }
+  
+  .fullScreenCalendar .calendar__number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    color: black;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: white;
+  }
+
+  .calendar__number:nth-child(7n) {
+    color: #ff685d;
+    font-weight: 700;
+  }
+  .calendar__number:nth-child(7n-1) {
+    color: #ff685d;
+    font-weight: 700;
+  }
+
+  .fullScreenCalendar {
+    position: relative;
+    box-sizing: border-box;
+    background-color: white;
+    /* width: 890px; */
+    width: 67%;
+    height: 790px;
+  }
+
+  .fullScreenCalendar .calendar__date {
+    grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+    grid-gap: 0;
+    margin: 0 auto;
+  }
+
+  .fullScreenCalendar .calendar__number {
+    /* height: 124px; */
+    height: 113px;
+    position: relative;
+    align-items: flex-start;
+    /* border: 1px solid #CECECE; */
+    /* padding: 4px; */
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .fullScreenCalendar .calendar__number::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    border: 1px solid #CECECE;
+  }
+
+  .fullScreenCalendar .calendar__number .calendarEvents {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 15px;
+  }
+
+  .CalendarEvent {
+    /* border-radius: 5px; */
+    padding: 8px;
+    margin-bottom: 5px;
+    /* width: 85%; */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .caledar_month {
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-around;
+    padding-top: 20px;
+}
+
+.fullScreenCalendar .calendar__number--current {
+  background-color: rgba(0, 161, 6, 0.1);
+  color: red;
+}
+
+.calendarNumber {
+  padding: 4px 0px 0px 4px;
+  margin-bottom: 5px;
+  z-index: 2;
+}
+
+.calendarEvents {
+  font-size: 12px;
+  color: black !important;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.calendarTitle {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: flex-end;
+  padding: 0px 20px;
+}
+
+/* .Btn_eventHistory {
+  font-size: 14px;
+  text-align: end;
+  position: relative;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.Btn_eventHistory::before {
+  content: '';
+  position: absolute;
+  background-image: url('../../Img/event1.svg');
+  width: 34px;
+  height: 34px;
+  top: -30%;
+  right: 47%;
+} */
+
+.EventsBtn {
+  display: flex;
+  position: absolute;
+  right: 0;
+  top: 13px;
+  justify-content: flex-end;
+  margin-right: 20px;
+}
+
+.BtnCreateEvent {
+  width: 45px;
+  height: 45px;
+  background-image: url('../../Img/CreateEvent.svg');
+  cursor: pointer;
+  margin-right: 34px;
+}
+
+.BtnHistoryEvents {
+  width: 45px;
+  height: 45px;
+  background-image: url('../../Img/HistoryEvent.svg');
+  cursor: pointer;
+}
+
+.history_event {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  display: none;
+}
+.history_event::before {
+  content: '';
+  width: 1030px;
+  height: 781px;
+  background-color: rgba(0,0,0,0.25);
+}
+
+.EventFrame {
+  width: 505px;
+  height: 377px;
+  background-color: #FFF;
+  box-shadow: -3px 3px 12px rgba(0, 0, 0, 0.25), 3px -3px 12px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  z-index: 2;
+}
+
+.CreateEventFrame, .ChangeEventFrame, .DeleteEvent {
+  width: 505px;
+  height: 377px;
+  background-color: #FFF;
+  box-shadow: -3px 3px 12px rgba(0, 0, 0, 0.25), 3px -3px 12px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  z-index: 4;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.BlockEvent {
+  padding: 15px 15px;
+}
+
+.HistoryTitle, .CreateEventTitle, .DeleteCalendarTitle {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.HistoryList, .CreateEvent {
+  margin-top: 7px;
+}
+
+.EventItemFrame {
+  height: 54px;
+  background-color: #D9D9D9;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.fullScreenCalendar .EventItemTitle {
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+
+.EventItemPadding {
+  padding: 5px 10px;
+  height: 44px;
+}
+
+.EventName {
+  height: 28px;
+  background-color: white;
+  padding: 0px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+}
+
+.HistoryScrooll {
+  height: 260px;
+  overflow-y: scroll;
+  padding: 0px 10px 10px 0px;
+}
+
+.HistoryScrooll::-webkit-scrollbar-track {
+  background-color: lightgray;
+  border-radius: 9em;
+  margin-right: 5px;
+}
+
+.HistoryScrooll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.HistoryScrooll::-webkit-scrollbar-thumb {
+  background-color: #843465;
+  border-radius: 9em;
+  box-shadow: inset 1px 1px 10px #f3faf7;
+}
+
+.EventBtnFrame {
+  display: flex;
+  justify-content: end;
+  padding-right: 16px;
+}
+
+.EventBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 91px;
+  height: 28px;
+  background: #D9D9D9;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  /* margin-top: 10px; */
+}
+
+.EventFrame p {
+  color: #878787;
+  display: flex;
+  align-items: center;
+}
+
+.EventNotification {
+  display: block !important;
+}
+
+.EventFrame input {
+  height: 20px;
+  outline: none;
+}
+
+.EventFrame textarea {
+  height: 110px;
+  resize: none;
+  outline: none;
+}
+
+.CreateEventFrame input, .ChangeEventFrame input {
+  height: 20px;
+  outline: none;
+}
+
+.CreateEventFrame textarea, .ChangeEventFrame textarea {
+  height: 110px;
+  resize: none;
+  outline: none;
+}
+
+.EventTitleBlock {
+  position: relative;
+}
+
+.fullScreenCalendar .EventColorMark {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  left: 97px;
+  top: 4px;
+}
+
+.EventTitleBlock, .EventAboutBlock, .EventDateBlock, .EventUsersListBlock, .EventNotificationsBlock {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  margin-bottom: 5px;
+}
+
+.EventNotificationStatusBlock {
+  display: flex;
+  align-items: center;
+}
+
+.EventActiveNotificationStatus {
+  width: 15px;
+  height: 15px;
+  background: lightgreen;
+  border: 1px solid lightgray;
+  margin-right: 7px;
+  margin-left: 0px;
+}
+
+.CreateEventBtnFrame {
+  display: flex;
+  justify-content: end;
+}
+
+.EventBtnCreate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 91px;
+  height: 28px;
+  background: #CFD300;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  /* margin-top: 10px; */
+  margin-left: 20px;
+}
+
+.GrayFilter {
+  background-color: rgba(12, 12, 12, 0.6);
+  width: 100%;
+  height: 790px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  display: none;
+}
+
+.fullScreenCalendar .calendar__number-current {
+  background-color: rgba(0, 161, 6, 0.1) !important;
+  color: black;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.activeCreateEvent {
+  display: block;
+}
+
+.activeHistory {
+  display: block;
+}
+
+input[type="color"] {
+  width: 15px;
+  background: red;
+  height: 15px;
+  padding: 0px;
+  outline: none;
+  border: none;
+}
+
+input[type="color" i]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.pop-upNotification {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -950%);
+  color: white;
+  width: 200px;
+  height: 40px;
+  border-radius: 10px;
+  text-align: center;
+  display: none;
+  transition: 2s;
+  animation: show 4s 1;
+  animation-fill-mode: forwards;
+  z-index: 5;
+}
+
+.cancel {
+  background-color: lightcoral;
+}
+
+.passed {
+  background-color: lightgreen;
+}
+
+.notification-active {
+  display: block;
+}
+
+@keyframes show{
+  0%{
+  opacity:0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+  opacity:1;
+  }
+  100% {
+    opacity: 0;
+  }
+  }
+
+.Notification {
+  padding: 10px;
+  font-size: 13px;
+}
+
+.change-active {
+  display: block;
+}
+
+.CreateEventTitle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Trash {
+  width: 25px;
+  height: 25px;
+  background: url('../../Img/trash.svg');
+  cursor: pointer;
+}
+
+.DeleteEvent {
+  height: 120px;
+  width: 400px;
+  z-index: 10;
+}
+
+.Trash-active {
+  display: block;
+  z-index: 5;
+}
+
+.RootFrame {
+  position: relative;
+  display: flex;
+}
+
+.SearchEvent {
+  width: 400px;
+  height: 121px;
+  background-color: #FFF;
+  box-shadow: -3px 3px 12px rgb(0 0 0 / 25%), 3px -3px 12px rgb(0 0 0 / 25%);
+  border-radius: 5px;
+  z-index: 4;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.ChoiceEventTitle {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+input.ChoiseEventInput {
+    outline: none;
+}
+
+.SearchEvent-active {
+  display: block;
+}
+
+.DeleteCalendarByName {
+  width: 505px;
+  background-color: #FFF;
+  box-shadow: -3px 3px 12px rgba(0, 0, 0, 0.25), 3px -3px 12px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  z-index: 4;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.DeleteCalendarTitle {
+  margin-bottom: 10px;
+}
+
+.DeleteCalendarFrame {
+  display: flex;
+  justify-content: end;
+}
+
+.DeleteBlockInput {
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+  margin-bottom: 5px;
+  line-height: 30px;
+}
+
+.DeleteBlockTitle {
+  font-size: 14px;
+  color: #878787;
+}
+
+.DeleteCalendarInput {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.NewCalendarBtn {
+  margin-top: 5px;
+}
+
+.ChoiceEventBlockBtn {
+  margin-top: 10px;
+}
+
+.DeleteCalendarFrame {
+  margin-top: 5px;
+}
+
+.EventDateBlock {
+  grid-template-columns: 1.6fr 1.4fr 0.2fr 1.4fr;
+}
+.split {
+  text-align: center;
+}

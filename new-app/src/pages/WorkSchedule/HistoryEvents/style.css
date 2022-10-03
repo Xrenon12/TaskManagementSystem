@@ -1,0 +1,68 @@
+.HistoryFrame {
+    color: white;
+    font-size: 14px;
+}
+
+.HistoryFrame .HistoryPadding {
+    padding: 0px 20px 0px 20px;
+}
+
+.HistoryFrame .HistoryShowEvents {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid white;
+}
+.HistoryFrame .HistoryEventItem {
+    margin-bottom: 6px;
+    position: relative;
+}
+
+.HistoryFrame .EventItemTitle {
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.HistoryFrame .EventBody {
+    display: flex;
+    align-items: center;
+}
+
+.HistoryFrame .EventItemBody {
+    font-size: 12px;
+    line-height: 18px;
+    max-width: 160px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.HistoryFrame .EventItemTime {
+    font-size: 10px;
+    color: #8F8F8F;
+}
+
+.HistoryFrame .EventBody {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.HistoryFrame .EventItemBody {
+    padding-left: 20px;
+}
+
+.HistoryFrame .EventColorMark {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: white;
+    left: 0;
+    top: 5px;
+}
+
+.HistoryFrame select {
+    outline: none;
+}
