@@ -23,7 +23,7 @@ class EventsBlock {
     actualEventId = ''
     // Информация о новом событии (Меню создания события)
     NewEvent = {
-        EventInputTitle: '',
+        EventInputTitle: null,
         EventTextArea: '',
         EventDateInput: '',
         EventDateToInput: '',
@@ -117,7 +117,7 @@ class EventsBlock {
         }
         this.NewEvent = {
             ColorMark: randomColor({luminosity: 'light'}),
-            EventInputTitle: '',
+            EventInputTitle: null,
             EventTextArea: '',
             EventDateInput: date,
             EventDateToInput: date,
@@ -142,7 +142,7 @@ class EventsBlock {
             if (response.status === 400) {
                 this.ErrorEvent = !this.ErrorEvent
             } else if (response.status === 200) {
-                this.PassedEvent = !this.PassedEvent
+                this.SetPassedEvent()
             }
             return response.json()
           });
@@ -157,9 +157,9 @@ class EventsBlock {
             EventNotificationActive: false
         }
 
-        this.CreateEvent = !this.CreateEvent
-        this.updateScreen = !this.updateScreen
+        this.SetCreateEvent()
         this.fetchData()
+        this.SetUpdateScreen()
     }
     // Получение информации о текущем пользователе и его событиях
     async fetchData() {
@@ -206,7 +206,7 @@ class EventsBlock {
 
             let event_array_list = await events_promise
             ShowEventsList.SetEventsList(event_array_list)
-        }    
+        }  
     }
     // Переключатели отображения менюшек
     SetErrorEvent() {

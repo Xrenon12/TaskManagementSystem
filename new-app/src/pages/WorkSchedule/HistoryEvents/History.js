@@ -7,8 +7,9 @@ import { observer } from 'mobx-react-lite';
 
 import './style.css';
 import { toJS } from "mobx";
-import Calendar from '../../../mobx/Calendar';
 import EventsBlock from '../../../mobx/Events';
+
+import HistoryCurrentDay from '../../../components/jsxHistoryEvents.js/CurrentDay';
 
 const HistoryEventsBlock = observer(() =>  {
 
@@ -38,10 +39,16 @@ const HistoryEventsBlock = observer(() =>  {
     function generateHistoryEventList() {
         let temp = []
         ShowEventsList.getEventListCurrentMonth(Month.curMonth)
-        for (let items = 0; items < ShowEventsList.EventListCurrentMonth.length; items++) {
 
-            const date = new Date(ShowEventsList.EventListCurrentMonth[items]['event_date']).toLocaleString().split(',')
-            const date2 = new Date(ShowEventsList.EventListCurrentMonth[items]['event_date'])
+        for (let items = 0; items < ShowEventsList.EventsList.length; items++) {
+
+            const date = new Date(ShowEventsList.EventsList[items]['event_date']).toLocaleString().split(',')
+            const date_to = new Date(ShowEventsList.EventsList[items]['event_date_to']).toLocaleString().split(',')
+
+            const date_only_time = (date[1].split(':')[0] + ':' + date[1].split(':')[1])
+            const date_to_only_time = (date_to[1].split(':')[0] + ':' + date_to[1].split(':')[1])
+
+            const date2 = new Date(ShowEventsList.EventsList[items]['event_date'])
 
             let month = Month.curMonth;
             let day = Datee.date
@@ -68,108 +75,97 @@ const HistoryEventsBlock = observer(() =>  {
             // Последний день недели
             last_day_week = getWeekDays(wkEnd)
 
-            // console.log(EventsBlock.getAllEventsDates(ShowEventsList.EventsList[items]['event_id'], 0))
-            let event_dates_list = EventsBlock.getAllEventsDates(ShowEventsList.EventListCurrentMonth[items]['event_id'], 1)
-            // console.log(event_dates_list)
+            let event_dates_list = EventsBlock.getAllEventsDates(ShowEventsList.EventsList[items]['event_id'], 1)
 
             if ((date[0] === curDay || curDay in event_dates_list) && ShowEventsList.ThisDay === true) {
+                // Текущий день
                 if (temp.length === 0) {
+                    // Текущий день
                     temp.push(
-                        <div className='HistoryEvents' key={items}>
-                            <div className='HistoryEventItem'>
-                                <div className='EventItemTitle'>Сегодня {curDay}</div>
-                                <div className='EventBody'>
-                                    <div className='EventColorMark' style={{background: ShowEventsList.EventListCurrentMonth[items]['event_color']}}></div>
-                                    <div className='EventItemBody'>{ShowEventsList.EventListCurrentMonth[items]['event_name']}</div>
-                                    <div className='EventItemTime'>{date[1]}</div>
-                                </div>
-                            </div>
-                        </div>
+                        <HistoryCurrentDay items={items} curDay={curDay} date_only_time={date_only_time} date_to_only_time={date_to_only_time} title={'DayEventWithTitle'}/>
                     )
                 } else {
+                    // События текущего дня (без надписи Сегодня {curDay})
                     temp.push(
-                        <div className='HistoryEvents' key={items}>
-                            <div className='HistoryEventItem'>
-                                <div className='EventBody'>
-                                    <div className='EventColorMark' style={{background: ShowEventsList.EventListCurrentMonth[items]['event_color']}}></div>
-                                    <div className='EventItemBody'>{ShowEventsList.EventListCurrentMonth[items]['event_name']}</div>
-                                    <div className='EventItemTime'>{date[1].split('.')[0]}</div>
-                                </div>
-                            </div>
-                        </div>
+                        <HistoryCurrentDay items={items} curDay={curDay} date_only_time={date_only_time} date_to_only_time={date_to_only_time} title={'DayEvents'}/>
                     )
                 }
             } else {
-                console.log(ShowEventsList.EventListCurrentMonth[items])
-                event_dates_list = EventsBlock.getAllEventsDates(ShowEventsList.EventListCurrentMonth[items]['event_id'], 1)
-                // console.log(event_dates_list)
-                
+                event_dates_list = EventsBlock.getAllEventsDates(ShowEventsList.EventsList[items]['event_id'], 1)
                 let dates_list_week = EventsBlock.getAllEventsDates('None', 1, new Date(Year.year, month-1, 1), new Date(Year.year, month, 0))
-                // console.log(dates_list_week)
-                let dates = []
-                // Object.keys(dates_list_week).map(key => {
-                //     let x = dates_list_week[key].split('.')
-                //     dates.push(new Date(x[2], x[1]-1, x[0]))
-                // })
-                // dates = dates.reduce((a, v) => ({ ...a, [v]: v}), {})
-                // console.log(new Date(Year.year, month-1, 1) in dates, new Date(Year.year, month, 0) in dates)
-                // console.log(event_dates_list)
-                // console.log(dates_list_week)
-
-                if (((new Date(Year.year, month-1, 1) <= date2 && new Date(Year.year, month, 0) >= date2)) && ShowEventsList.ThisMonth === true) {
-                    if (temp.length === 0) {
-                        temp.push(
-                            <div className='HistoryEvents' key={items}>
-                                <div className='HistoryEventItem'>
-                                    <div className='EventItemTitle'>Задачи за {Calendar.Month[month-1]}</div>
-                                    <div className='EventBody'>
-                                        <div className='EventColorMark' style={{background: ShowEventsList.EventListCurrentMonth[items]['event_color']}}></div>
-                                        <div className='EventItemBody'>{ShowEventsList.EventListCurrentMonth[items]['event_name']}</div>
-                                        <div className='EventItemTime'>{date[1]}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    } else {
-                        temp.push(
-                            <div className='HistoryEvents' key={items}>
-                                <div className='HistoryEventItem'>
-                                    <div className='EventBody'>
-                                        <div className='EventColorMark' style={{background: ShowEventsList.EventListCurrentMonth[items]['event_color']}}></div>
-                                        <div className='EventItemBody'>{ShowEventsList.EventListCurrentMonth[items]['event_name']}</div>
-                                        <div className='EventItemTime'>{date[1].split('.')[0]}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        )
+                let Continue = false
+                Object.keys(event_dates_list).map(key => {
+                    if (key in dates_list_week) {
+                        Continue = true
                     }
-                } else {
-                    if (subtractHours(3, new Date(first_day_week)) <= date2 && new Date(last_day_week) >= date2 && ShowEventsList.ThisWeek === true) {
-                        if (temp.length === 0) {
+                })
+
+                if (((new Date(Year.year, month-1, 1) <= date2 && new Date(Year.year, month, 0) >= date2) || Continue === true) && ShowEventsList.ThisMonth === true) {
+                    let StartDate = Datee.getDate(ShowEventsList.EventsList[items]['event_date'])
+                    let Closedate = Datee.getDate(ShowEventsList.EventsList[items]['event_date_to'])
+                    
+                    // События за месяц
+                    if (temp.length === 0) { 
+                        if (StartDate === Closedate) {
                             temp.push(
-                                <div className='HistoryEvents' key={items}>
-                                    <div className='HistoryEventItem'>
-                                        <div className='EventItemTitle'>Задачи за неделю</div>
-                                        <div className='EventBody'>
-                                            <div className='EventColorMark' style={{background: ShowEventsList.EventListCurrentMonth[items]['event_color']}}></div>
-                                            <div className='EventItemBody'>{ShowEventsList.EventListCurrentMonth[items]['event_name']}</div>
-                                            <div className='EventItemTime'>{date[1]}</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <HistoryCurrentDay items={items} curDay={curDay} date_only_time={date_only_time} date_to_only_time={date_to_only_time} month={month} title={'MonthEventWithTitleHours'}/>
+                            )
+                        } else {
+                            // События за месяц
+                            temp.push(
+                                <HistoryCurrentDay items={items} curDay={curDay} StartDate={StartDate} Closedate={Closedate} month={month} title={'MonthEventsWithTitle'}/>
+                            )
+                        }
+                    } else {
+                        // События за месяц (Без надписи Задачи за {Calendar.Month[month-1]})
+                        if (StartDate === Closedate) {
+                            temp.push(
+                                <HistoryCurrentDay items={items} curDay={curDay} date_only_time={date_only_time} date_to_only_time={date_to_only_time} month={month} title={'MonthEventsHours'}/>
                             )
                         } else {
                             temp.push(
-                                <div className='HistoryEvents' key={items}>
-                                    <div className='HistoryEventItem'>
-                                        <div className='EventBody'>
-                                            <div className='EventColorMark' style={{background: ShowEventsList.EventListCurrentMonth[items]['event_color']}}></div>
-                                            <div className='EventItemBody'>{ShowEventsList.EventListCurrentMonth[items]['event_name']}</div>
-                                            <div className='EventItemTime'>{date[1].split('.')[0]}</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <HistoryCurrentDay items={items} curDay={curDay} StartDate={StartDate} Closedate={Closedate} month={month} title={'MonthEvents'}/>
                             )
+                        }
+                    }
+                } else {
+                    event_dates_list = EventsBlock.getAllEventsDates(ShowEventsList.EventsList[items]['event_id'], 1)
+                    let dates_list_week = EventsBlock.getAllEventsDates('None', 1, first_day_week, last_day_week)
+                    let Continue = false
+                    Object.keys(event_dates_list).map(key => {
+                        if (key in dates_list_week) {
+                            Continue = true
+                        }
+                    })
+
+                    if (((subtractHours(3, new Date(first_day_week)) <= date2 && new Date(last_day_week) >= date2) || Continue === true) && ShowEventsList.ThisWeek === true) {
+                        let StartDate = Datee.getDate(ShowEventsList.EventsList[items]['event_date'])
+                        let Closedate = Datee.getDate(ShowEventsList.EventsList[items]['event_date_to'])
+
+                        // События за неделю
+                        if (temp.length === 0) {
+                            if (StartDate === Closedate) {
+                                temp.push(
+                                    <HistoryCurrentDay items={items} curDay={curDay} date_only_time={date_only_time} date_to_only_time={date_to_only_time} title={'WeekEventWithTitleHours'}/>
+                                )
+                            } else {
+                                temp.push(
+                                    <HistoryCurrentDay items={items} curDay={curDay} date_only_time={date_only_time} date_to_only_time={date_to_only_time} title={'WeekEventsWithTitle'}/>
+                                )
+                            }
+                        } else {
+                            if (StartDate === Closedate) {
+                                // События за неделю (Без надписи Задачи на неделю)
+                                temp.push(
+                                    <HistoryCurrentDay items={items} curDay={curDay} date_only_time={date_only_time} date_to_only_time={date_to_only_time} title={'WeekEventsHours'}/>
+                                )
+                            } else {
+                                // События за неделю (Без надписи Задачи на неделю)
+                                temp.push(
+                                    <HistoryCurrentDay items={items} curDay={curDay} StartDate={StartDate} Closedate={Closedate} title={'WeekEvents'}/>
+                                )
+                            }
+                            
                         }
                     }
                 }

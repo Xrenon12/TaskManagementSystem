@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx"
 import UserInfo from "./UserInfo"
+import EventsBlock from "./Events"
 
 class ShowEventsList {
 

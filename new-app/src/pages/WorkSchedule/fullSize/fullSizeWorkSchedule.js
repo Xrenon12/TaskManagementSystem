@@ -75,16 +75,16 @@ const FullSizeWorkSchedule = observer(() => {
                 temp.event_body = event.target.value
                 break
             case 'EventDateInput':
-                temp.event_date = event.target.value
+                temp.event_date = event.target.value + ':00'
                 break
             case 'EventDateToInput':
-                temp.event_date_to = event.target.value
+                temp.event_date_to = event.target.value + ':00'
                 break
             case 'EventActiveNotificationStatus':
                 temp.event_notification_active = event.target.checked
                 break
             case 'EventNotificationTime':
-                temp.event_notification_time = event.target.value
+                temp.event_notification_time = event.target.value + ':00'
                 break
             default:
                 console.log('Something failed')
@@ -240,6 +240,27 @@ const FullSizeWorkSchedule = observer(() => {
         nMatrixDays = temp
         return nMatrixDays
     }
+    // ОБработка нажатий кнопок
+    document.addEventListener('keyup', (event) => {
+        // Обновление информации о событии при нажатии на Enter
+        if (EventsBlock.ChangeEvent === false && event.key === 'Enter') {
+            uploadNewEventInfo();
+            Events.fetchData()
+        }
+        // Создание нового события при нажатии на Enter
+        if (EventsBlock.CreateEvent === false && event.key === 'Enter') {
+            EventsBlock.createNewEvent()
+        }
+        // Закрытие окошка при нажатии на Escape
+        if (event.key === 'Escape') {
+            if (EventsBlock.CreateEvent === false) {
+                EventsBlock.SetCreateEvent()
+            }
+            if (EventsBlock.ChangeEvent === false) {
+                EventsBlock.SetChangeEvent()
+            }
+        }
+    });
 
   return (
     <div className='RootFrame'>
@@ -301,9 +322,9 @@ const FullSizeWorkSchedule = observer(() => {
                         </div>
                         <div className='EventDateBlock'>
                             <p className='EventDate'>Дата события</p>
-                            <input className='EventDateInput' placeholder='Формат ГГ-ММ-ДД ЧЧ:ММ:СС' onChange={(event) => {EventsBlock.EventCreateChangeData(event)}} value={EventsBlock.NewEvent['EventDateInput']}></input>
+                            <input className='EventDateInput' placeholder='Формат ГГ-ММ-ДД ЧЧ:ММ:СС' type="datetime-local" onChange={(event) => {EventsBlock.EventCreateChangeData(event)}} value={EventsBlock.NewEvent['EventDateInput']}></input>
                             <div className='split'>-</div>
-                            <input className='EventDateToInput' placeholder='Формат ГГ-ММ-ДД ЧЧ:ММ:СС' onChange={(event) => {EventsBlock.EventCreateChangeData(event)}} value={EventsBlock.NewEvent['EventDateToInput']}></input>
+                            <input className='EventDateToInput' placeholder='Формат ГГ-ММ-ДД ЧЧ:ММ:СС' type="datetime-local" onChange={(event) => {EventsBlock.EventCreateChangeData(event)}} value={EventsBlock.NewEvent['EventDateToInput']}></input>
                         </div>
                         <div className='EventUsersListBlock'>
                             <p className='EventUsersList'>Участники</p>
@@ -318,7 +339,7 @@ const FullSizeWorkSchedule = observer(() => {
                                 </div>
                                 <div className='EventNotificationTimeBlock'>
                                     <p className='EventNotificationtimeTitle'>Время рассылки</p>
-                                    <input className='EventNotificationTime' placeholder='Формат ГГ-ММ-ДД ЧЧ:ММ' onChange={(event) => {EventsBlock.EventCreateChangeData(event)}} value={EventsBlock.NewEvent['EventNotificationTime']} disabled={EventsBlock.NewEvent['EventNotificationActive'] ? null : "Disabled"}></input>
+                                    <input className='EventNotificationTime' placeholder='Формат ГГ-ММ-ДД ЧЧ:ММ' type="datetime-local" onChange={(event) => {EventsBlock.EventCreateChangeData(event)}} value={EventsBlock.NewEvent['EventNotificationTime']} disabled={EventsBlock.NewEvent['EventNotificationActive'] ? null : "Disabled"}></input>
                                 </div>
                             </div>
                         </div>
@@ -370,9 +391,9 @@ const FullSizeWorkSchedule = observer(() => {
                                     </div>
                                     <div className='EventDateBlock'>
                                         <p className='EventDate'>Дата события</p>
-                                        <input className='EventDateInput' placeholder='Формат ГГ-ММ-ДД' onChange={CurrentEventChangeInfo} value={item.event_date}></input>
+                                        <input className='EventDateInput' placeholder='Формат ГГ-ММ-ДД' type="datetime-local" onChange={CurrentEventChangeInfo} value={date.convertToDateTimeFormat(item.event_date)}></input>
                                         <div className='split'>-</div>
-                                        <input className='EventDateToInput' placeholder='Формат ГГ-ММ-ДД ЧЧ:ММ:СС' onChange={CurrentEventChangeInfo} value={item.event_date_to}></input>
+                                        <input className='EventDateToInput' placeholder='Формат ГГ-ММ-ДД ЧЧ:ММ:СС' type="datetime-local" onChange={CurrentEventChangeInfo} value={date.convertToDateTimeFormat(item.event_date_to)}></input>
                                     </div>
                                     <div className='EventUsersListBlock'>
                                         <p className='EventUsersList'>Участники</p>
@@ -387,7 +408,7 @@ const FullSizeWorkSchedule = observer(() => {
                                             </div>
                                             <div className='EventNotificationTimeBlock'>
                                                 <p className='EventNotificationtimeTitle'>Время рассылки</p>
-                                                <input className='EventNotificationTime' placeholder='Формат ГГ-ММ-ДД ЧЧ:ММ' onChange={CurrentEventChangeInfo} value={item.event_notification_time} disabled={item.event_notification_active === true ? null : "disabled"}></input>
+                                                <input className='EventNotificationTime' placeholder='Формат ГГ-ММ-ДД ЧЧ:ММ' type="datetime-local" onChange={CurrentEventChangeInfo} value={date.convertToDateTimeFormat(item.event_notification_time)} disabled={item.event_notification_active === true ? null : "disabled"}></input>
                                             </div>
                                         </div>
                                     </div>
